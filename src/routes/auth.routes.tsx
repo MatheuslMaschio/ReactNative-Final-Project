@@ -3,6 +3,7 @@ import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-na
 
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
+import InitialScreen from '../screens/InitialScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,6 +15,7 @@ type StackNavigation = {
     //     age: number
     //     adult: boolean
     // };
+    InitialScreen: undefined;
 }
 
 export type StackTypes = NativeStackNavigationProp<StackNavigation>;
@@ -22,6 +24,14 @@ function AuthRoutes() {
     return (
         <Stack.Navigator>
             <Stack.Screen 
+                name='InitialScreen'
+                component={InitialScreen}
+                options={{
+                    headerShown: false
+                }}
+            />
+
+            {/* <Stack.Screen 
                 name='SignIn'
                 component={SignInScreen}
             />
@@ -29,7 +39,8 @@ function AuthRoutes() {
             <Stack.Screen 
                 name='SignUp'
                 component={SignUpScreen}
-            />
+            /> */}
+
 
         </Stack.Navigator>
     )
