@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { 
     Container, 
     Image, 
@@ -7,33 +7,37 @@ import {
     TextButton, 
     TextContainer, 
     Title 
-} from '../Styles/StyleInitialScreen'
+} from '../Styles/StyleInitialScreen';
+
+import { useNavigation } from '@react-navigation/native';
+import { StackTypes } from '../routes/auth.routes';
 
 export default function InitialScreen() {
+    const navigation = useNavigation<StackTypes>();
+
     return (
-        <Container >
+        <Container>
             <Image 
                 source={require('../../assets/bg.png')}
                 resizeMode="cover"
             />
 
-            <TextContainer >
-                <Title>Plant {'\n'}Paradise </Title>
+            <TextContainer>
+                <Title>Plant {'\n'}Paradise</Title>
 
-                <SubTitle >Find your favoriteplants and  {'\n'}help the environment </SubTitle>
-                
+                <SubTitle>Find your favorite plants and {'\n'}help the environment</SubTitle>
 
-                <SubmitButton>
-                    <TextButton> Sign In</TextButton>
+                <SubmitButton 
+                    onPress={() => navigation.navigate('SignIn')}
+                >
+                    <TextButton>Sign In</TextButton>
                 </SubmitButton>
 
-                <SubmitButton>
-                    <TextButton> Sign Up</TextButton>
+                <SubmitButton onPress={() => navigation.navigate('SignUp')}>
+                    <TextButton>Sign Up</TextButton>
                 </SubmitButton>
-                
             </TextContainer>
-
         </Container>
-    ) 
+    );
 }
 

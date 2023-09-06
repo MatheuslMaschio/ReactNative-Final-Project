@@ -1,6 +1,6 @@
 import styled from 'styled-components/native'
 
-export const Container = styled.KeyboardAvoidingView `
+export const Container = styled.View `
     flex: 2;
 `;
 
@@ -38,4 +38,5 @@ export const TextButton = styled.Text `
     font-size: 24px;
     color: white;
 `;
+
 
