@@ -1,8 +1,13 @@
-import React, { createContext, ReactNode, useState, useEffect } from 'react';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import firebaseApp from '../services/firebase';
-import { useNavigation } from '@react-navigation/native';
-import { StackTypes } from '../routes/auth.routes';
+import React, { createContext, ReactNode, useState } from "react";
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    UserCredential,
+} from "firebase/auth";
+import { appAuth } from "../services/firebase";
+import { useNavigation } from "@react-navigation/native";
+import { TabTypes } from "../routes/app.routes";
+import { StackTypes } from "../routes/auth.routes";
 
 interface User {
     id: string;
@@ -11,11 +16,11 @@ interface User {
 }
 
 interface AuthContextProps {
-    signUp: (email: string, password: string, name: string) => void;
-    signIn: (email: string, password: string) => void;
+    signUp: (email: string, password: string, name: string) => Promise<void>;
+    signIn: (email: string, password: string) => Promise<void>;
     loadingAuth: boolean;
     signed: boolean;
-    user: User | null; 
+    user: User | null;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -30,66 +35,55 @@ interface Props {
     children: ReactNode;
 }
 
-
-
 function AuthProvider({ children }: Props) {
-    const [user, setUser] = useState<User | null>(null); 
+    const [user, setUser] = useState<User | null>(null);
     const [loadingAuth, setLoadingAuth] = useState<boolean>(false);
 
     const navigation = useNavigation<StackTypes>();
+    const navigationHome = useNavigation<TabTypes>();
 
-    async function signUp(email: string, password: string, name: string) {
-        const auth = getAuth(firebaseApp);
+    const signUp = async (
+        email: string,
+        password: string,
+        name: string
+    ): Promise<void> => {
         setLoadingAuth(true);
         try {
-            const userCredential = await createUserWithEmailAndPassword(
-                auth, 
-                email, 
-                password
-            );
-    
-            const userData = {
-                id: userCredential.user.uid,
-                name,
+            await createUserWithEmailAndPassword(appAuth, email, password);
+            setLoadingAuth(false);
+            navigation.navigate("SignIn");
+        } catch (error) {
+            console.error("ERRO AO CADASTRAR", error);
+            setLoadingAuth(false);
+        }
+    };
+
+    const signIn = async (email: string, password: string): Promise<void> => {
+            setLoadingAuth(true);
+        try {
+            const userCredential: UserCredential = await signInWithEmailAndPassword(
+                appAuth,
                 email,
-            };
-            
-            setUser(userData);
-            setLoadingAuth(false);
-            navigation.navigate('SignIn');
-    
-        } catch (err) {
-            console.log("ERRO AO CADASTRAR", err);
-            setLoadingAuth(false);
-        }
-    }
-    async function signIn(email: string, password: string) {
-        const auth = getAuth(firebaseApp);
-        setLoadingAuth(true);
-        try {
-            const userCredential = await signInWithEmailAndPassword(
-                auth, 
-                email, 
                 password
             );
-            const user = userCredential.user;
-            
-            const userData: User = {
-                id: user.uid,
-                name: user.displayName || '',
-                email: user.email || '',
-            };
-
-            setUser(userData);
+            const signedUser = userCredential.user;
+            setUser({
+                id: signedUser.uid,
+                name: signedUser.displayName || "",
+                email: signedUser.email || "",
+            });
             setLoadingAuth(false);
-        } catch (err) {
-            console.log("ERRO AO LOGAR", err);
+            navigationHome.navigate("Home"); 
+        } catch (error) {
+            console.error("ERRO AO LOGAR", error);
             setLoadingAuth(false);
         }
-    }
+    };
 
     return (
-        <AuthContext.Provider value={{ signed: !!user, user, signUp, signIn, loadingAuth }}>
+        <AuthContext.Provider
+            value={{ signed: !!user, user, signUp, signIn, loadingAuth }}
+        >
             {children}
         </AuthContext.Provider>
     );
