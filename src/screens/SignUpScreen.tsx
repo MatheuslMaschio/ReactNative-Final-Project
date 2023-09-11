@@ -15,7 +15,6 @@ import { StackTypes } from '../routes/auth.routes';
 import { AuthContext } from '../contexts/auth';
 
 export default function SignUpScreen() {
-  const navigation = useNavigation<StackTypes>();
 
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');

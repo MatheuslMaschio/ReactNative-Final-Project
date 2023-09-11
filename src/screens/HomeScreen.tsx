@@ -1,79 +1,94 @@
-import { View, Text, StyleSheet, FlatList} from 'react-native'
-import React from 'react'
-import { StackTypes } from '../routes/auth.routes';
-
+import { View, Text, FlatList, SectionList} from 'react-native'
+import React, {useState, useEffect} from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { TabTypes } from '../routes/app.routes';
 import { 
     Container, 
-    HeaderContainer, 
+    Header, 
     HeaderText, 
     ProfileImage, 
     TextContainer, 
-    SubTitle, 
+    TextOne, 
     CardOneContainer, 
-    CardOne, 
     ButtonCart,
-    CardOneImage,
-    TextCardOne, 
-    CardContainerTwo, 
-    Card, 
-    ImageB, 
-    ButtonFavorites, 
-    ButtonFavoritesOne,
     ButtonAdd,
-    TextButtonAdd
+    TextButtonAdd,
+    CardOne,
+    CardOneImage,
+    ButtonFavoritesOne,
+    TextCardOne,
+    CardContainerTwo,
+    Card,
+    ImageB,
+    ButtonFavorites
 } from '../Styles/StyleHomeScreen';
 
-const profile = require('../images/profile.png');
-const plant1 = require('../images/plant1.png');
-const plant2 = require('../images/plant2.jpeg');
-
+import axios from 'axios';
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 export default function HomeScreen() {
+    const profile = require('../images/profile.png');
     const navigation = useNavigation<TabTypes>();
-    const navigationStack = useNavigation<StackTypes>();
-    function navigateTab() {
-        navigation.navigate("Cart");
+    interface Product {
+        id: string;
+        title: string;
+        description: string;
+        price: number;
+        category: string;
+        categoryId: string;
+        image: string;
     }
 
-    const cardData = [
-        { id: '1', title: 'Green Vines', price: '$9.20', image: require('../images/plant1.png') },
-        { id: '2', title: 'Another Plant', price: '$10.50', image: require('../images/plant2.jpeg') },
-        { id: '3', title: 'Green Vines', price: '$9.20', image: require('../images/plant1.png') },
-        { id: '4', title: 'Another Plant', price: '$10.50', image: require('../images/plant2.jpeg') },
-        { id: '5', title: 'Green Vines', price: '$9.20', image: require('../images/plant1.png') },
-        { id: '6', title: 'Another Plant', price: '$10.50', image: require('../images/plant2.jpeg') },
-    ];
+    const [mostPopularData, setMostPopularData] = useState<Product[]>([]);
+    const [itemsData, setItemsData] = useState<Product[]>([]);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('https://8jcox47hg2.execute-api.us-east-2.amazonaws.com/dev/');
+                setMostPopularData(response.data.body.data.mostPopular);
+                setItemsData(response.data.body.data.items);
+            } catch (error) {
+                console.error('Erro ao buscar dados:', error);
+            }
+        };
+    
+        fetchData();
+    }, []);
 
+    function navigationDetails() {
+        navigation.navigate('Details');
+    }
 
     return (
         <Container>
-            <HeaderContainer>
+            <Header>
                 <HeaderText>Hi,John</HeaderText>
                 <ProfileImage source={profile} />
-            </HeaderContainer>
+            </Header>
 
-            <SubTitle>Most popular</SubTitle>
-
+            <TextOne>Most popular</TextOne>
+            
             <View style={{flex:1}}>
                 <FlatList 
-                    data={cardData}
+                    data={mostPopularData}
                     horizontal={true}
                     renderItem={({item}) => (
-                        <CardOneContainer >
+                        <CardOneContainer onPress={navigationDetails} >
                             <CardOne>
-                                <CardOneImage source={item.image} />
-                                <ButtonFavoritesOne />
+                                <CardOneImage source={{uri: item.image}}  />
+                                <ButtonFavoritesOne>
+                                    <Icon name="favorite-border" size={16} />
+                                </ButtonFavoritesOne>
                                 <TextCardOne>
                                     <View>
                                         <Text>{item.title}</Text>
-                                        <Text>{item.price}</Text>
+                                        <Text>{`$${item.price}`}</Text>
                                     </View>
 
                                     <View>
-                                        <ButtonAdd onPress={navigateTab}>
+                                        <ButtonAdd >
+
                                             <TextButtonAdd>Add to Cart</TextButtonAdd>
                                         </ButtonAdd>
                                     </View>
@@ -87,32 +102,30 @@ export default function HomeScreen() {
             
             <View style={{flex:1}}>
                 <FlatList
-                    data={cardData}
+                    data={itemsData}
                     horizontal={false}
                     renderItem={({ item }) => (
-                        <CardContainerTwo>
-                        <Card>
-                            <ImageB source={item.image} />
-                            <ButtonFavorites />
-                            <TextContainer>
-                            <View>
-                                <Text>{item.title}</Text>
-                                <Text>{item.price}</Text>
-                            </View>
-                            <ButtonCart />
-                            </TextContainer>
-                        </Card>
+                        <CardContainerTwo >
+                            <Card>
+                                <ImageB source={{uri: item.image}} />
+                                <ButtonFavorites>
+                                    <Icon name="favorite-border" size={16} />
+                                </ButtonFavorites>
+                                <TextContainer>
+                                    <View>
+                                        <Text>{item.title}</Text>
+                                        <Text>{`$${item.price}`}</Text>
+                                    </View>
+                                    <ButtonCart >
+                                        <Icon name="shopping-bag" size={16} color={"#fff"} />    
+                                    </ButtonCart>
+                                </TextContainer>
+                            </Card>
                         </CardContainerTwo>
                     )}
                     keyExtractor={(item) => item.id}
                 />
             </View>
-            
         </Container>
     )
 }
-
-
-
-
-
