@@ -1,8 +1,9 @@
-import { initializeApp } from 'firebase/app';
-// import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
-// import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 
-const firebaseConfig = {
+import type { ReactNativeFirebase } from '@react-native-firebase/app';
+
+const firebaseConfig: ReactNativeFirebase.FirebaseAppOptions = {
     apiKey: "AIzaSyCozHPS8C-BJ0LZeDwwiTDd6P1K6Gpgxic",
     authDomain: "reactnativefinalchallenge.firebaseapp.com",
     projectId: "reactnativefinalchallenge",
@@ -12,10 +13,7 @@ const firebaseConfig = {
     measurementId: "G-LS6FQ1XTGS"
 };
 
-const firebaseApp = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-// const auth = initializeAuth(app, {
-//     persistence: getReactNativePersistence(ReactNativeAsyncStorage)
-// });
+export const appAuth = getAuth(app);
 
-export default firebaseApp;
