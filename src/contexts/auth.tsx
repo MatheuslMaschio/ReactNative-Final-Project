@@ -6,7 +6,7 @@ import {
 } from "firebase/auth";
 import { appAuth } from "../services/firebase";
 import { useNavigation } from "@react-navigation/native";
-import { TabTypes } from "../routes/app.routes";
+import { TabTypes } from "../routes/TabNavigator";
 import { StackTypes } from "../routes/auth.routes";
 
 interface User {
@@ -40,6 +40,7 @@ function AuthProvider({ children }: Props) {
     const [loadingAuth, setLoadingAuth] = useState<boolean>(false);
 
     const navigation = useNavigation<StackTypes>();
+
     const navigationHome = useNavigation<TabTypes>();
 
     const signUp = async (

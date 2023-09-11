@@ -1,33 +1,28 @@
 import React from "react";
-import { createBottomTabNavigator, BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import HomeScreen from "../screens/HomeScreen";
-import CartScreen from "../screens/CartScreen";
-import FavoriteScreen from "../screens/FavoriteScreen";
+import {BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-const Tab = createBottomTabNavigator();
+import PlantDetailScreen from "../screens/PlantDetailScreen";
+import TabNavigator from "./TabNavigator";
+import ProfileScreen from "../screens/ProfileScreen";
+
+const Stack = createNativeStackNavigator();
 
 type TabNavigation = {
-    Home: undefined;
-    Cart: undefined;
-    Favorite: undefined;
+    Details: undefined;
+    Perfil: undefined;
+    Tab: undefined;
 };
 
-export type TabTypes = BottomTabNavigationProp<TabNavigation, "Home" | "Cart" | "Favorite">;
+export type TabTypes = BottomTabNavigationProp<TabNavigation, "Details"| "Tab" | "Perfil" >;
 
 function AppRoutes() {
     return (
-        <Tab.Navigator 
-            screenOptions={{
-                tabBarStyle: { height: 60 },
-                tabBarActiveTintColor: "#418B64",
-                tabBarInactiveTintColor: "black",
-                tabBarLabelStyle: { margin: 7, fontSize: 14 },
-            }
-        }>
-            <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
-            <Tab.Screen name= "Favorite" component={FavoriteScreen} options={{ headerShown: false }}/>
-            <Tab.Screen name="Cart" component={CartScreen} options={{ headerShown: false }}/>
-        </Tab.Navigator>
+        <Stack.Navigator >
+            <Stack.Screen name= "Tab" component={TabNavigator} options={{ headerShown: false }}/>
+            <Stack.Screen name="Details" component={PlantDetailScreen}/>
+            <Stack.Screen name="Perfil" component={ProfileScreen} />
+        </Stack.Navigator>
     );
 }
 
