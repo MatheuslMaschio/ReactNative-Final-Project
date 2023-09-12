@@ -2,8 +2,6 @@ import { View, Text, FlatList, SectionList} from 'react-native'
 import React, {useState, useEffect, useContext} from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { TabTypes } from '../routes/app.routes';
-import * as Styles from '../Styles/StyleHomeScreen';
-
 
 import { 
     Container, 
