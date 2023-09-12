@@ -1,22 +1,26 @@
 import { View, Text, FlatList, SectionList} from 'react-native'
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { TabTypes } from '../routes/app.routes';
+import * as Styles from '../Styles/StyleHomeScreen';
+
+
 import { 
     Container, 
-    Header, 
+    HeaderContainer, 
     HeaderText, 
     ProfileImage, 
     TextContainer, 
-    TextOne, 
-    CardOneContainer, 
+    Subtitle, 
+    CardOrizontalContainer, 
     ButtonCart,
     ButtonAdd,
     TextButtonAdd,
-    CardOne,
-    CardOneImage,
+    CardOrizontal,
+    CardOrizontalImage,
+
     ButtonFavoritesOne,
-    TextCardOne,
+    TextCardOrizontal,
     CardContainerTwo,
     Card,
     ImageB,
@@ -25,6 +29,7 @@ import {
 
 import axios from 'axios';
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { CartContext } from '../contexts/CartContext';
 
 export default function HomeScreen() {
     const profile = require('../images/profile.png');
@@ -41,6 +46,12 @@ export default function HomeScreen() {
 
     const [mostPopularData, setMostPopularData] = useState<Product[]>([]);
     const [itemsData, setItemsData] = useState<Product[]>([]);
+
+    const { addItemCart } = useContext(CartContext)
+
+    function addToCart(item) {
+        addItemCart(item);
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -62,39 +73,46 @@ export default function HomeScreen() {
 
     return (
         <Container>
-            <Header>
+            <HeaderContainer>
                 <HeaderText>Hi,John</HeaderText>
                 <ProfileImage source={profile} />
-            </Header>
+            </HeaderContainer>
 
-            <TextOne>Most popular</TextOne>
+            <Subtitle>Most popular</Subtitle>
             
             <View style={{flex:1}}>
                 <FlatList 
                     data={mostPopularData}
                     horizontal={true}
-                    renderItem={({item}) => (
-                        <CardOneContainer onPress={navigationDetails} >
-                            <CardOne>
-                                <CardOneImage source={{uri: item.image}}  />
+                    renderItem={({ item }: { item: Product }) => (
+                        <CardOrizontalContainer onPress={navigationDetails} >
+
+                            <CardOrizontal>
+
+                                <CardOrizontalImage source={{uri: item.image}}  />
+
                                 <ButtonFavoritesOne>
                                     <Icon name="favorite-border" size={16} />
                                 </ButtonFavoritesOne>
-                                <TextCardOne>
+
+                                <TextCardOrizontal>
                                     <View>
                                         <Text>{item.title}</Text>
                                         <Text>{`$${item.price}`}</Text>
                                     </View>
 
                                     <View>
-                                        <ButtonAdd >
-
+                                        <ButtonAdd onPress={() => addToCart(item)} >
                                             <TextButtonAdd>Add to Cart</TextButtonAdd>
                                         </ButtonAdd>
+
                                     </View>
-                                </TextCardOne>
-                            </CardOne>
-                        </CardOneContainer>
+
+                                </TextCardOrizontal>
+
+                            </CardOrizontal>
+
+                        </CardOrizontalContainer>
                     )}
                     keyExtractor={(item) => item.id}
                 />
@@ -105,22 +123,29 @@ export default function HomeScreen() {
                     data={itemsData}
                     horizontal={false}
                     renderItem={({ item }) => (
-                        <CardContainerTwo >
+                        <CardContainerTwo>
+
                             <Card>
                                 <ImageB source={{uri: item.image}} />
+
                                 <ButtonFavorites>
                                     <Icon name="favorite-border" size={16} />
                                 </ButtonFavorites>
+
                                 <TextContainer>
+                                    
                                     <View>
                                         <Text>{item.title}</Text>
                                         <Text>{`$${item.price}`}</Text>
                                     </View>
+
                                     <ButtonCart >
                                         <Icon name="shopping-bag" size={16} color={"#fff"} />    
                                     </ButtonCart>
+
                                 </TextContainer>
                             </Card>
+
                         </CardContainerTwo>
                     )}
                     keyExtractor={(item) => item.id}

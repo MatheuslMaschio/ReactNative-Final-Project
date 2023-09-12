@@ -6,7 +6,7 @@ export const Container = styled.ScrollView`
     flex: 1;
 `;
 
-export const Header = styled.View `
+export const HeaderContainer = styled.View `
     margin-top: 50px;
     background: #fff;
     flex-direction: row;
@@ -27,7 +27,7 @@ export const ProfileImage = styled.ImageBackground`
     height: 30px;
 ` ;
 
-export const TextOne = styled.Text`
+export const Subtitle = styled.Text`
     font-size: 20px;
     font-style: normal;
     font-weight: 600;
@@ -36,7 +36,7 @@ export const TextOne = styled.Text`
 `
 ;
 
-export const CardOneContainer = styled.TouchableOpacity`
+export const CardOrizontalContainer = styled.TouchableOpacity`
     background: #fff;
     width: 287px;
     height: 140px;
@@ -45,11 +45,11 @@ export const CardOneContainer = styled.TouchableOpacity`
     margin-left: 18px;
 `;
 
-export const CardOne = styled.View`
+export const CardOrizontal = styled.View`
     flex-direction: row;
 `;
 
-export const CardOneImage = styled.ImageBackground`
+export const CardOrizontalImage = styled.ImageBackground`
     width: 150px;
     height: 140px;
 `;
@@ -66,7 +66,19 @@ export const ButtonFavoritesOne = styled.TouchableOpacity`
     justify-content: center;
 `;
 
-export const TextCardOne = styled.View`
+export const BtnFavCardO = styled.TouchableOpacity`
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    background: #fff;
+    position: absolute;
+    margin-top: 4px;
+    margin-left: 4px;
+    align-items: center;
+    justify-content: center;
+`
+
+export const TextCardOrizontal = styled.View`
     padding: 8px;
     justify-content: space-between;
 `;
