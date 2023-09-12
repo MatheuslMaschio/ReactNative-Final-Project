@@ -1,24 +1,30 @@
-import { View, Text, Alert } from 'react-native'
-import React from 'react'
-import Icon from "react-native-vector-icons/MaterialIcons";
+import { View, Text, Alert, FlatList } from 'react-native'
+import React, { useContext, useState, useEffect } from 'react'
 import {
-    Button,
-    ButtonAdd,
-    ButtonContainer,
-    Buttons,
-    CardAlign,
-    CardContainer,
     CartButton,
     Container,
     HeaderContainer,
     HeaderText,
-    Logo,
     SumCard,
     TextButtons,
 } from "../Styles/StyleCartScreen";
 
-export default function CartScreen() {
-    const logoCard = require("../images/plant1.png");
+import { CartContext } from "../contexts/CartContext";
+import CardItem from '../components/CardItem';
+
+export default function CartScreen( ) {
+    const { cart, addItemCart, removeItemCart } = useContext(CartContext);
+    const [total, setTotal] = useState(0);
+    
+
+    useEffect(() => {
+        // Calcula o total a partir do carrinho
+        const cartTotal = cart.reduce((accumulator, item) => {
+            return accumulator + item.total;
+        }, 0);
+
+        setTotal(cartTotal);
+    }, [cart]);
 
     return (
         <Container>
@@ -26,32 +32,27 @@ export default function CartScreen() {
                 <HeaderText>Cart</HeaderText>
             </HeaderContainer>
 
-            <CardAlign>
-                <CardContainer>
-                <Logo source={logoCard} />
-                <ButtonContainer>
-                    <View>
-                    <Text>Green Vines</Text>
-                    <Text>$9.20</Text>
-                    </View>
-                    <Buttons>
-                    <Button>
-                        <Icon name="remove" size={12} color={"#418B64"} />
-                    </Button>
-                    <Text>1</Text>
-                    <ButtonAdd>
-                        <Icon name="add" size={12} color={"#ffffff"} />
-                    </ButtonAdd>
-                    </Buttons>
-                </ButtonContainer>
-                </CardContainer>
-            </CardAlign>
+            <FlatList
+                data={cart}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={(item) => String(item.id)}
+                ListEmptyComponent={() => (
+                    <Text style ={{ textAlign: "center"}}>Seu carrinho está vazio</Text>
+                )}
+                renderItem={({ item }) => (
+                    <CardItem 
+                        data={item}
+                        addAmount={() => addItemCart(item)}
+                        removeAmount={() => removeItemCart(item)}
+                    />
+                )}
+            />
 
             <SumCard>
                 <Text>Subtotal</Text>
-                <Text>$30.00</Text>
+                <Text>{`$${total}`}</Text>
             </SumCard>
-            
+
             <CartButton onPress={() => Alert.alert("Purchase Completed")}>
                 <TextButtons>Go To Checkout</TextButtons>
             </CartButton>
