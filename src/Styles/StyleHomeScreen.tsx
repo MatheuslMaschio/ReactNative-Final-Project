@@ -86,7 +86,7 @@ export const TextCardOrizontal = styled.View`
     justify-content: space-between;
 `;
 
-export const CardContainerTwo = styled.View`
+export const CardContainerTwo = styled.TouchableOpacity`
     margin-top: 23px;
     margin-left: 18px;
     ${Platform.OS === 'android' ? 'elevation: 4;' : ''}

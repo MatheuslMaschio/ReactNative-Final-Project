@@ -48,7 +48,7 @@ export const Buttons = styled.View`
 `;
 
 type ButtonProps = {
-  isDelete: boolean;
+  isDelete?: boolean;
 }
 
 export const Button = styled.TouchableOpacity<ButtonProps>`
