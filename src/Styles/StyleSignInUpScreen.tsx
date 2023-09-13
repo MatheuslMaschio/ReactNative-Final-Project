@@ -2,14 +2,14 @@ import styled from "styled-components/native";
 
 export const Background = styled.View`
     flex: 1;
-    background-color: #F0F4FF;
+    background-color: #FFF;
 `
 
-export const Container = styled.KeyboardAvoidingView`
+export const Container = styled.View`
     align-items: center;
-    justify-content: center;
     margin-top: 30px;
 `;
+
 
 export const Logo = styled.Image`
     margin-bottom: 25px;
@@ -61,3 +61,16 @@ export const LinkText = styled.Text`
     color: #171717;
 `
 
+export const InputLabel = styled.Text`
+    color: #969595;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    margin-bottom: 6px; 
+    text-align: left;
+    align-self: flex-start;
+`;
+
+export const CenteredContent = styled.View`
+    align-items: center;
+`;

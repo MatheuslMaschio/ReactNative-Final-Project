@@ -1,10 +1,8 @@
-// SignInScreen.tsx
 import React, { useContext, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
-import { Background, Container, AreaInput, Input, SubmitButton, SubmitText } from '../Styles/StyleSignUpScreen';
+import { Background, Container, AreaInput, Input, SubmitButton, SubmitText, InputLabel, CenteredContent } from '../Styles/StyleSignInUpScreen'; // Importe InputLabel
+
 import { AuthContext } from '../contexts/auth';
-
-
 
 export default function SignInScreen() {
     const { signIn, loadingAuth } = useContext(AuthContext);
@@ -17,32 +15,38 @@ export default function SignInScreen() {
 
     return (
         <Background>
-        <Container>
-            <AreaInput>
-            <Input
-                placeholder="Seu email"
-                value={email}
-                onChangeText={(text) => setEmail(text)}
-            />
-            </AreaInput>
-
-            <AreaInput>
-            <Input
-                placeholder="Sua senha"
-                value={password}
-                onChangeText={(text) => setPassword(text)}
-                secureTextEntry={true}
-            />
-            </AreaInput>
-
-            <SubmitButton onPress={handleLogin}>
-            {loadingAuth ? (
-                <ActivityIndicator size={20} color="#FFF" />
-            ) : (
-                <SubmitText>Logar</SubmitText>
-            )}
-            </SubmitButton>
-        </Container>
+            <Container>
+                <CenteredContent>
+                    <InputLabel>E-MAIL</InputLabel> 
+                    <AreaInput>
+                        <Input
+                            placeholder="Your e-mail address"
+                            value={email}
+                            onChangeText={(text) => setEmail(text)}
+                        />
+                    </AreaInput>
+                </CenteredContent>
+        
+                <CenteredContent>
+                    <InputLabel>PASSWORD</InputLabel> 
+                    <AreaInput>
+                        <Input
+                            placeholder="Your password"
+                            value={password}
+                            onChangeText={(text) => setPassword(text)}
+                            secureTextEntry={true}
+                        />
+                    </AreaInput>
+                </CenteredContent>
+        
+                <SubmitButton onPress={handleLogin}>
+                    {loadingAuth ? (
+                        <ActivityIndicator size={20} color="#FFF" />
+                    ) : (
+                        <SubmitText>Logar</SubmitText>
+                    )}
+                </SubmitButton>
+            </Container>
         </Background>
     );
 }
