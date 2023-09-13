@@ -1,6 +1,5 @@
 import React, {createContext, useState, ReactNode} from "react";
 
-
 export interface CartItem {
     id: number;
     title: string;
@@ -17,12 +16,14 @@ interface CartContextType {
     cart: CartItem[];
     addItemCart: (newItem: CartItem) => void;
     removeItemCart: (product: CartItem) => void;
+    total: number;
 }
 
 export const CartContext = createContext<CartContextType>({
     cart: [],
     addItemCart: () => {},
     removeItemCart: () => {},
+    total: 0, 
 });
 
 interface Props {
@@ -32,6 +33,7 @@ interface Props {
 
 function CartProvider({ children }: Props) {
     const [cart, setCart] = useState<CartItem[]>([]);
+    const [total, setTotal] = useState(0);
     
     function addItemCart(newItem: any) {
         const indexItem = cart.findIndex(item => item.id === newItem.id)
@@ -45,7 +47,8 @@ function CartProvider({ children }: Props) {
             cartList[indexItem].total = cartList[indexItem].amount * cartList[indexItem].price;
 
             setCart(cartList);
-            console.log(cartList);
+            totalResultCart(cartList);
+
 
             return;
         }
@@ -57,6 +60,7 @@ function CartProvider({ children }: Props) {
         }
 
         setCart(products => [...products, data])
+        totalResultCart([...cart, data]);
 
     }
 
@@ -71,11 +75,20 @@ function CartProvider({ children }: Props) {
             cartList[indexItem].total = cartList[indexItem].amount * cartList[indexItem].price;
             
             setCart(cartList);
+            totalResultCart(cartList);
             return;
         }
 
         const removeItem = cart.filter(item => item.id !== product.id);
         setCart(removeItem);
+        totalResultCart(removeItem);
+    }
+
+    function totalResultCart(items: CartItem[]) {
+        let myCart = items;
+        let result = myCart.reduce((acc, obj) => { return acc + obj.total }, 0)
+
+        setTotal(result);
     }
 
 
@@ -84,7 +97,8 @@ function CartProvider({ children }: Props) {
             value={{ 
                 cart,
                 addItemCart,  
-                removeItemCart
+                removeItemCart,
+                total
             }}
         >
             {children}

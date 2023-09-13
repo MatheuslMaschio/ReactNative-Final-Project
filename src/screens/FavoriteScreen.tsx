@@ -1,40 +1,49 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, FlatList, StyleSheet } from 'react-native'
+import React, {useContext} from 'react'
 import {
     Container,
-    ButtonFavorite,
-    CardContainer,
     TitleContainer,
     TitleText,
-    ImageBG,
-    BackGround,
-    ButtonContent,
+
 } from "../Styles/StyleFavoriteScreen";
 
-export default function FavoriteScreen() {
+import { FavoriteContext} from "../contexts/FavoriteContext";
+import  CardItemFavorite from '../components/CardItemFavorite';
 
-    const logo = require('../images/plant1.png');
+
+export default function FavoriteScreen() {
+    const {favorite, removeFavorite } = useContext(FavoriteContext);
 
     return (
         <Container>
+
             <TitleContainer>
                 <TitleText>Favorites</TitleText>
             </TitleContainer>
 
-            <BackGround>
-                <CardContainer>
-                    <ImageBG source={logo} />
-                    <ButtonContent>
-                        <View>
-                            <Text>Green Vines</Text>
-                            <Text>$9.20</Text>
-                        </View>
-                        <ButtonFavorite />
-                    </ButtonContent>
-                </CardContainer>
-            </BackGround>
-
+            <FlatList style={styles.FlatListStyled}
+                data = {favorite} 
+                showsVerticalScrollIndicator={false}
+                keyExtractor={(item) => String(item.id)}
+                ListEmptyComponent={() => (
+                    <Text style ={{ textAlign: "center"}}>Sua Lista de favoritos está vazia</Text>
+                )}
+                renderItem={({ item }) => (
+                    <CardItemFavorite
+                        data={item}
+                        removeFavorite={() => removeFavorite(item.id)}
+                    />
+                )}
+            />
         </Container>
     );
 
 }
+
+const styles = StyleSheet.create({
+    FlatListStyled: {
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+    }
+})
