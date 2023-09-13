@@ -1,4 +1,4 @@
-import { View, Text, Alert, FlatList } from 'react-native'
+import { View, Text, Alert, FlatList, StyleSheet } from 'react-native'
 import React, { useContext, useState, useEffect } from 'react'
 import {
     CartButton,
@@ -13,18 +13,9 @@ import { CartContext } from "../contexts/CartContext";
 import CardItem from '../components/CardItem';
 
 export default function CartScreen( ) {
-    const { cart, addItemCart, removeItemCart } = useContext(CartContext);
-    const [total, setTotal] = useState(0);
+    const { cart, addItemCart, removeItemCart, total } = useContext(CartContext);
     
-
-    useEffect(() => {
-        // Calcula o total a partir do carrinho
-        const cartTotal = cart.reduce((accumulator, item) => {
-            return accumulator + item.total;
-        }, 0);
-
-        setTotal(cartTotal);
-    }, [cart]);
+    
 
     return (
         <Container>
@@ -32,7 +23,7 @@ export default function CartScreen( ) {
                 <HeaderText>Cart</HeaderText>
             </HeaderContainer>
 
-            <FlatList
+            <FlatList style={styles.FlatListStyled}
                 data={cart}
                 showsVerticalScrollIndicator={false}
                 keyExtractor={(item) => String(item.id)}
@@ -59,3 +50,12 @@ export default function CartScreen( ) {
         </Container>
     );
 }
+
+
+const styles = StyleSheet.create({
+    FlatListStyled: {
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+    }
+})

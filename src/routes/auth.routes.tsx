@@ -21,16 +21,25 @@ function AuthRoutes() {
             <Stack.Screen 
                 name='InitialScreen'
                 component={InitialScreen}
+                options={{
+                    headerShown: false
+                }}
             />
 
             <Stack.Screen
                 name="SignIn"
                 component={SignInScreen}
+                options={{
+                    headerTitleAlign: 'center'
+                }}
             />
 
             <Stack.Screen 
                 name='SignUp'   
                 component={SignUpScreen}
+                options={{
+                    headerTitleAlign: 'center'
+                }}
             />
         </Stack.Navigator>
     )

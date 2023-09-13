@@ -20,7 +20,7 @@ function AppRoutes() {
     return (
         <Stack.Navigator >
             <Stack.Screen name= "Tab" component={TabNavigator} options={{ headerShown: false }}/>
-            <Stack.Screen name="Details" component={PlantDetailScreen}/>
+            <Stack.Screen name="Details" component={PlantDetailScreen} options={{headerTitleAlign: 'center'}}/>
             <Stack.Screen name="Perfil" component={ProfileScreen} />
         </Stack.Navigator>
     );

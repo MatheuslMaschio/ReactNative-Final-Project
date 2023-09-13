@@ -9,8 +9,6 @@ import {
   SubmitText, 
 } from '../Styles/StyleSignUpScreen';
 
-import { useNavigation } from '@react-navigation/native';
-import { StackTypes } from '../routes/auth.routes';
 
 import { AuthContext } from '../contexts/auth';
 
@@ -35,7 +33,7 @@ export default function SignUpScreen() {
 
         <AreaInput>
           <Input
-            placeholder="Seu Nome"
+            placeholder="Your Name"
             value={name}
             onChangeText={ (text) => setName(text) }
           />
@@ -43,7 +41,7 @@ export default function SignUpScreen() {
 
         <AreaInput>
           <Input
-            placeholder="Seu email"
+            placeholder="Type your e-mail address"
             value={email}
             onChangeText={ (text) => setEmail(text) }
           />
@@ -51,7 +49,7 @@ export default function SignUpScreen() {
 
         <AreaInput>
           <Input
-            placeholder="Sua senha"
+            placeholder="Type your password"
             value={password}
             onChangeText={ (text) => setPassword(text) }
             secureTextEntry={true}

@@ -1,13 +1,13 @@
 import { View, Text } from 'react-native'
 import React, { useState } from 'react'
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { Feather } from '@expo/vector-icons'; 
 
 import {
     Button,
     ButtonAdd,
     ButtonContainer,
     Buttons,
-    CardAlign,
     CardContainer,
     Logo,
     
@@ -43,30 +43,36 @@ export default function CardItem({ data, addAmount, removeAmount }: { data: Card
         setAmount(item => item - 1);
     }
 
+    const isDelete = amount === 1;
+
     return (
-        <CardAlign>
-            <CardContainer>
-                <Logo source={{ uri: data.image }} />
+        <CardContainer>
+            <Logo source={{ uri: data.image }} />
 
-                <View style={{ padding: 6, flex: 1 }}>
-                    <Text>{data.title}</Text>
-                    <Text>{`$${data.price}`}</Text>
-                </View>
+            <View style={{ padding: 6, flex: 1 }}>
+                <Text>{data.title}</Text>
+                <Text>{`$${data.price}`}</Text>
+            </View>
 
-                <ButtonContainer>
-                    <Buttons>
-                        <Button onPress={handleDecrease}>
-                            <Icon name="remove" size={12} color={"#418B64"} />
-                        </Button>
+            <ButtonContainer>
+                <Buttons>
+                    <Button onPress={handleDecrease} isDelete={isDelete}> 
 
-                        <Text>{data.amount}</Text>
+                        {
+                            isDelete ? <Feather name="trash" size={12} color="red" />
+                        :   
+                            <Icon name="remove" size={12} color={"#418B64"} /> 
+                        }
 
-                        <ButtonAdd onPress={handleIncrease}>
-                            <Icon name="add" size={12} color={"#ffffff"} />
-                        </ButtonAdd>
-                    </Buttons>
-                </ButtonContainer>
-            </CardContainer>
-        </CardAlign>
+                    </Button>
+                        
+                    <Text>{data.amount}</Text>
+
+                    <ButtonAdd onPress={handleIncrease}>
+                        <Icon name="add" size={12} color={"#ffffff"} />
+                    </ButtonAdd>
+                </Buttons>
+            </ButtonContainer>
+        </CardContainer>
     )
 }
