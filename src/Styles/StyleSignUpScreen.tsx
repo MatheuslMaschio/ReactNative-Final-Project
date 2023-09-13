@@ -6,9 +6,9 @@ export const Background = styled.View`
 `
 
 export const Container = styled.KeyboardAvoidingView`
-    flex: 1;
     align-items: center;
     justify-content: center;
+    margin-top: 30px;
 `;
 
 export const Logo = styled.Image`
@@ -21,18 +21,22 @@ export const AreaInput = styled.View`
 
 export const Input = styled.TextInput`
     background-color: #FFF;
-    width: 90%;
-    height: 45px;
+    width: 327px;
+    height: 48px;
     font-size: 10px;
-    border-radius: 8px;
     color: #121212;
     margin-bottom: 15px;
-    
+    border-radius: 10px;
+    border: 1px solid #000;
+    padding: 0 10px; 
+    align-items: center; 
+    justify-content: center; 
+    text-align: center; 
 `;
 
 export const SubmitButton = styled.TouchableOpacity`
-    width: 90%;
-    height: 45px;
+    width: 325px;
+    height: 48px;
     border-radius: 8px;
     background-color: #418b64;
     margin-top: 10px;

@@ -3,17 +3,22 @@ import styled from "styled-components/native";
 export const Container = styled.View`
     flex: 1;
     background: #fff;
-    padding: 16px;`
-;
+    padding: 16px;
+    justify-content: space-between;
+    display: flex;
+`;
 
 export const TitleContainer = styled.View`
     margin-top: 50px;
-    margin-left: 18px;`
+    margin-left: 18px;
+    `
 ;
 
 export const TitleText = styled.Text`
     font-size: 24px;
-    font-weight: 600;`
+    font-weight: 600;
+    margin-bottom: 25px; 
+`
 ;
 
 export const BackGround = styled.View`
@@ -24,10 +29,12 @@ export const BackGround = styled.View`
 export const CardContainer = styled.View`
     border-radius: 8px;
     background: #ecf8f3;
-    width: 327px;
+    width: 100%;
     height: 73px;
     overflow: hidden;
-    flex-direction: row;`
+    flex-direction: row;
+    margin-bottom: 16px;
+    `
 ;
 
 export const ImageBG = styled.ImageBackground`
@@ -35,16 +42,17 @@ export const ImageBG = styled.ImageBackground`
     height: 73px;`
 ;
 
-export const ButtonContent = styled.View`
-    padding: 7px;
-    flex-direction: row;`
-;
-
 export const ButtonFavorite = styled.TouchableOpacity`
-    width: 40px;
-    height: 40px;
-    border-radius: 20px;
-    background: #fff;
-    margin-left: 110px;
-    margin-top: 8px;`
+    width: 40px; 
+    height: 40px; 
+    border-radius: 20px; 
+    background-color: #fff; 
+    position: absolute; 
+    right: 16px; 
+    top: 16px; 
+    bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    `
 ;

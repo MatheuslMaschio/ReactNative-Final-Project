@@ -4,6 +4,8 @@ export const Container = styled.View`
   background: #fff;
   padding: 16px;
   justify-content: space-between;
+  display: flex;
+
 `;
 
 export const HeaderContainer = styled.View`
@@ -14,21 +16,18 @@ export const HeaderContainer = styled.View`
 export const HeaderText = styled.Text`
   font-size: 24px;
   font-weight: 600;
-`;
-
-export const CardAlign = styled.View`
-  align-items: center;
-  margin-top: 30px;
-  flex: 1;
+  margin-bottom: 25px; 
 `;
 
 export const CardContainer = styled.View`
   border-radius: 8px;
   background: #ecf8f3;
-  width: 327px;
+  width: 100%;
   height: 73px;
   overflow: hidden;
   flex-direction: row;
+  margin-bottom: 16px;
+  
 `;
 
 export const Logo = styled.ImageBackground`
@@ -48,7 +47,11 @@ export const Buttons = styled.View`
   justify-content: right;
 `;
 
-export const Button = styled.TouchableOpacity`
+type ButtonProps = {
+  isDelete: boolean;
+}
+
+export const Button = styled.TouchableOpacity<ButtonProps>`
   width: 20px;
   height: 20px;
   border-radius: 10px;
@@ -56,7 +59,9 @@ export const Button = styled.TouchableOpacity`
   margin: 10px;
   justify-content: center;
   align-items: center;
-  border: 1px solid #418b64;
+  border: 1px solid ${
+    ({isDelete}) => isDelete ? '#ff0000' : '#418b64'
+  };
 `;
 
 export const ButtonAdd = styled.TouchableOpacity`
