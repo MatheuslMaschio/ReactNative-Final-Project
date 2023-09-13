@@ -14,9 +14,6 @@ import CardItem from '../components/CardItem';
 
 export default function CartScreen( ) {
     const { cart, addItemCart, removeItemCart, total } = useContext(CartContext);
-    
-    
-
     return (
         <Container>
             <HeaderContainer>

@@ -1,7 +1,7 @@
 import React, {createContext, useState, ReactNode} from "react";
 
 export interface CartItem {
-    id: number;
+    id: string;
     title: string;
     price: number;
     amount: number; 
@@ -37,32 +37,39 @@ function CartProvider({ children }: Props) {
     
     function addItemCart(newItem: any) {
         const indexItem = cart.findIndex(item => item.id === newItem.id)
-
+        const amount = newItem.amount || 1;
+        
         if(indexItem !== -1){
             //Se entrou aqui add +1 pois já está na lista
             let cartList = cart;
-
-            cartList[indexItem].amount = cartList[indexItem].amount + 1;
+            
+            cartList[indexItem].amount = cartList[indexItem].amount + amount;
             
             cartList[indexItem].total = cartList[indexItem].amount * cartList[indexItem].price;
 
             setCart(cartList);
             totalResultCart(cartList);
-
-
+            
             return;
         }
 
-        let data = {
+        // console.log(amount, newItem.amount);
+
+        const data = {
             ...newItem, 
-            amount: 1,
-            total: newItem.price
+            amount,
+            total: newItem.price * amount
         }
+        
+        
 
         setCart(products => [...products, data])
         totalResultCart([...cart, data]);
 
     }
+
+    console.log(cart);
+    
 
     function removeItemCart(product: CartItem) {
         const indexItem = cart.findIndex(item => item.id === product.id)
