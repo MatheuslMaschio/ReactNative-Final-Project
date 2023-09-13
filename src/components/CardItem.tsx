@@ -45,6 +45,8 @@ export default function CardItem({ data, addAmount, removeAmount }: { data: Card
 
     const isDelete = amount === 1;
 
+    
+    
     return (
         <CardContainer>
             <Logo source={{ uri: data.image }} />
