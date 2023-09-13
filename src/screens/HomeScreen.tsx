@@ -22,7 +22,9 @@ import {
     CardContainerTwo,
     Card,
     ImageB,
-    ButtonFavorites
+    ButtonFavorites,
+    ButtonContainer,
+    BtnCategory
 } from '../Styles/StyleHomeScreen';
 
 import axios from 'axios';
@@ -44,14 +46,12 @@ export default function HomeScreen() {
         image: string;
     }
 
-
     const [isLoading, setIsLoading] = useState(true);
+    const [selectedCategory, setSelectedCategory] = useState('all');
     const [mostPopularData, setMostPopularData] = useState<Product[]>([]);
     const [itemsData, setItemsData] = useState<Product[]>([]);
-
     const {addItemFavorite, removeFavorite, isFavorite} = useContext(FavoriteContext)
-
-    const { addItemCart } = useContext(CartContext)
+    const { cart, addItemCart } = useContext(CartContext)
 
     function addToCart(item) {
         addItemCart(item); 
@@ -61,7 +61,17 @@ export default function HomeScreen() {
         addItemFavorite(item);
     }
 
-    const route = useRoute();
+    const [filteredItems, setFilteredItems] = useState<Product[]>([]);
+
+    useEffect(() => {
+        if (selectedCategory === 'all') {
+            setFilteredItems(itemsData);
+        } else {
+            const filtered = itemsData.filter(item => item.category === selectedCategory);
+            
+            setFilteredItems(filtered);
+        }
+    }, [selectedCategory, itemsData]);
 
 
     useEffect(() => {
@@ -70,6 +80,7 @@ export default function HomeScreen() {
                 const response = await axios.get('https://8jcox47hg2.execute-api.us-east-2.amazonaws.com/dev/');
                 setMostPopularData(response.data.body.data.mostPopular);
                 setItemsData(response.data.body.data.items);
+                setFilteredItems(response.data.body.data.items);
                 setIsLoading(false);
             } catch (error) {
                 console.error('Erro ao buscar dados:', error);
@@ -78,6 +89,7 @@ export default function HomeScreen() {
     
         fetchData();
     }, []);
+    
 
     function navigationDetails() {
         navigation.navigate('Details'); 
@@ -115,10 +127,8 @@ export default function HomeScreen() {
                                             onPress={() => {
                                                 const itemId = parseInt(item.id, 10);
                                                 if (isFavorite(itemId)) {
-                                                    // O item é favorito, então remova-o dos favoritos
                                                     removeFavorite(itemId);
                                                 } else {
-                                                    // O item não é favorito, então adicione-o aos favoritos
                                                     addToFavorite(item);
                                                 }
                                             }}
@@ -150,16 +160,31 @@ export default function HomeScreen() {
                                 </CardOrizontalContainer>
                             )}
                             keyExtractor={(item) => item.id}
+                            style={{ marginBottom: 35 }}
                         />
                     </View>
+
+                    <ButtonContainer>
+                        <BtnCategory onPress={() => setSelectedCategory('all')}  isActive={selectedCategory === 'all'}>
+                            <Text>All</Text>
+                        </BtnCategory>
+
+                        <BtnCategory onPress={() => setSelectedCategory('Indoor')} isActive={selectedCategory === 'Indoor'}>
+                            <Text>Indoor</Text>
+                        </BtnCategory>
+
+                        <BtnCategory onPress={() => setSelectedCategory('Outdoor')} isActive={selectedCategory === 'Outdoor'}>
+                            <Text>Outdoor</Text>
+                        </BtnCategory>
+                    </ButtonContainer>
+                    
             
                     <View style={{flex:1}}>
                         <FlatList
-                            data={itemsData}
+                            data={filteredItems}
                             horizontal={false}
                             renderItem={({ item }) => (
                                 <CardContainerTwo>
-
                                     <Card>
                                         <ImageB source={{uri: item.image}} />
 
@@ -174,13 +199,15 @@ export default function HomeScreen() {
                                                 <Text>{`$${item.price}`}</Text>
                                             </View>
 
-                                            <ButtonCart onPress={() => addToCart(item)} >
-                                                <Icon name="shopping-bag" size={16} color={"#fff"} />    
+                                            <ButtonCart
+                                                onPress={() => {addToCart(item)}}
+                                            >
+                                                <Icon name="shopping-bag" size={16} color={'#fff'} />
+
                                             </ButtonCart>
 
                                         </TextContainer>
                                     </Card>
-
                                 </CardContainerTwo>
                             )}
                             keyExtractor={(item) => item.id}

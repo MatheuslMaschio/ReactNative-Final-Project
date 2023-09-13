@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-
+import { Platform } from "react-native";
 export const Container = styled.ScrollView`
     padding: 17px;
     background: #fff;
@@ -43,6 +43,9 @@ export const CardOrizontalContainer = styled.TouchableOpacity`
     border-radius: 8px;
     overflow: hidden;
     margin-left: 18px;
+    ${Platform.OS === 'android' ? 'elevation: 4;' : ''}
+    ${Platform.OS === 'ios' ? 'shadow-color: #000; shadow-offset: 0px 4px; shadow-opacity: 0.25; shadow-radius: 4px;' : ''}
+    margin-bottom: 35px;
 `;
 
 export const CardOrizontal = styled.View`
@@ -84,16 +87,21 @@ export const TextCardOrizontal = styled.View`
 `;
 
 export const CardContainerTwo = styled.View`
-    margin-top: 100px;
+    margin-top: 23px;
     margin-left: 18px;
-`;
+    ${Platform.OS === 'android' ? 'elevation: 4;' : ''}
+    ${Platform.OS === 'ios' ? 'shadow-color: #000; shadow-offset: 0px 4px; shadow-opacity: 0.25; shadow-radius: 4px;' : ''}
+    `;
 
 export const Card = styled.View`
     background: #fff;
     width: 327px;
     height: 279px;
     border-radius: 8px;
+    margin-bottom: 16px; 
     overflow: hidden;
+    ${Platform.OS === 'android' ? 'elevation: 4;' : ''}
+    ${Platform.OS === 'ios' ? 'shadow-color: #000; shadow-offset: 0px 4px; shadow-opacity: 0.25; shadow-radius: 4px;' : ''}
 `;
 
 export const ImageB = styled.ImageBackground`
@@ -139,4 +147,23 @@ export const TextButtonAdd = styled.Text `
     color: #fff;
     font-size: 12px;
     text-align: center;
+`;
+
+export const ButtonContainer = styled.View`
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-left: 27px;
+`;
+
+export const BtnCategory = styled.TouchableOpacity< { isActive: boolean }>`
+    font-weight: ${(props) => (props.isActive ? 'bold' : 'normal')};
+    margin: 5px;
+    margin-right: 40px;
+    height: 24px;
+`;
+
+export const ButtonLabel = styled.Text<{ isActive: boolean }>`
+    color: ${(props) => (props.isActive ? '#fff' : '#000')};
+    font-weight: bold;
+    font-size: 16px;
 `;
