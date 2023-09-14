@@ -53,8 +53,6 @@ function CartProvider({ children }: Props) {
             return;
         }
 
-        // console.log(amount, newItem.amount);
-
         const data = {
             ...newItem, 
             amount,
@@ -66,10 +64,7 @@ function CartProvider({ children }: Props) {
         setCart(products => [...products, data])
         totalResultCart([...cart, data]);
 
-    }
-
-    console.log(cart);
-    
+    }    
 
     function removeItemCart(product: CartItem) {
         const indexItem = cart.findIndex(item => item.id === product.id)
